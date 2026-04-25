@@ -67,7 +67,7 @@ public class FormPenjualan extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Kode
-        gbc.gridx=0; gbc.gridy=0; gbc.weightx = 0;
+        gbc.gridx=0; gbc.gridy=0; gbc.weightx = 1;
         form.add(new JLabel("Kode"), gbc);
 
         gbc.gridx=1; gbc.weightx = 1;
@@ -75,36 +75,36 @@ public class FormPenjualan extends JPanel {
         form.add(txtKodePenjualan, gbc);
 
         // Tanggal
-        gbc.gridx=0; gbc.gridy=1; gbc.weightx = 0;
+        gbc.gridx=0; gbc.gridy=1;
         form.add(new JLabel("Tanggal"), gbc);
 
-        gbc.gridx=1; gbc.weightx = 1;
+        gbc.gridx=1; 
         dateTanggal = new JDateChooser();
         dateTanggal.setDateFormatString("yyyy-MM-dd");
 
         form.add(dateTanggal, gbc);
 
         // Pelanggan
-        gbc.gridx=0; gbc.gridy=2; gbc.weightx = 0;
+        gbc.gridx=0; gbc.gridy=2;
         form.add(new JLabel("Pelanggan"), gbc);
 
-        gbc.gridx=1; gbc.weightx = 1;
+        gbc.gridx=1;
         cmbPelanggan = new JComboBox<>();
         form.add(cmbPelanggan, gbc);
 
         // Diskon
-        gbc.gridx=0; gbc.gridy=3; gbc.weightx = 0;
+        gbc.gridx=0; gbc.gridy=3;
         form.add(new JLabel("Diskon"), gbc);
 
-        gbc.gridx=1; gbc.weightx = 1;
+        gbc.gridx=1;
         txtDiskon = new JTextField("0");
         form.add(txtDiskon, gbc);
 
         // Total 
-        gbc.gridx=0; gbc.gridy=4; gbc.weightx = 0;
+        gbc.gridx=0; gbc.gridy=4;
         form.add(new JLabel("Total"), gbc);
 
-        gbc.gridx=1; gbc.weightx = 1;
+        gbc.gridx=1;
         lblTotal = new JLabel("0");
         form.add(lblTotal, gbc);
 
@@ -118,10 +118,10 @@ public class FormPenjualan extends JPanel {
         panelButton.add(btnSimpan);
 
         // Aksi
-        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 5;
         form.add(new JLabel("Aksi"), gbc);
 
-        gbc.gridx=1; gbc.weightx = 1;
+        gbc.gridx=1;
         form.add(panelButton, gbc);
 
         String[] columns = {

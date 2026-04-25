@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 
 public class FormHistoryPenjualan extends JPanel {
-
     private JDateChooser dateDari;
     private JDateChooser dateSampai;
     private JButton btnCari;
@@ -69,6 +68,7 @@ public class FormHistoryPenjualan extends JPanel {
             "Kode",
             "Tanggal",
             "Pelanggan",
+            "Diskon",
             "Total"
         };
 
@@ -98,6 +98,7 @@ public class FormHistoryPenjualan extends JPanel {
                 p.getKodePenjualan(),
                 new SimpleDateFormat("yyyy-MM-dd").format(p.getTanggal()),
                 p.getPelanggan().getNamaPelanggan(),
+                p.getDiskon(),
                 p.getTotal()
             });
         }
@@ -127,6 +128,7 @@ public class FormHistoryPenjualan extends JPanel {
                     p.getKodePenjualan(),
                     new SimpleDateFormat("yyyy-MM-dd").format(p.getTanggal()),
                     p.getPelanggan().getNamaPelanggan(),
+                    p.getDiskon(),
                     p.getTotal()
                 });
             }

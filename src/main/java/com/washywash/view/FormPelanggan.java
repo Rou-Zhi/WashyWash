@@ -49,34 +49,34 @@ public class FormPelanggan extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Kode
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 1;
         panelForm.add(new JLabel("Kode Pelanggan"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.weightx = 1;
         txtKodePelanggan = new JTextField();
         panelForm.add(txtKodePelanggan, gbc);
 
         // Nama
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 1;
         panelForm.add(new JLabel("Nama Pelanggan"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; 
         txtNamaPelanggan = new JTextField();
         panelForm.add(txtNamaPelanggan, gbc);
 
         // No HP
-        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 2;
         panelForm.add(new JLabel("No HP"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1;
         txtNoHp = new JTextField();
         panelForm.add(txtNoHp, gbc);
 
         // Email
-        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 3;
         panelForm.add(new JLabel("Email"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1;
         txtEmail = new JTextField();
         panelForm.add(txtEmail, gbc);
 
@@ -94,10 +94,10 @@ public class FormPelanggan extends JPanel {
         panelButton.add(btnReset);
 
         // Aksi
-        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 4;
         panelForm.add(new JLabel("Aksi"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1;
         panelForm.add(panelButton, gbc);
 
         String[] columnNames = {

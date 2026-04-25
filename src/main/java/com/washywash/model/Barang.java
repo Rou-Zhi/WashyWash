@@ -10,8 +10,7 @@ public class Barang {
 
     public Barang() {}
 
-    public Barang(String kodeBarang, String namaBarang, 
-    String jenisBarang, String satuan, double harga, int stok) {
+    public Barang(String kodeBarang, String namaBarang, String jenisBarang, String satuan, double harga, int stok) {
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.jenisBarang = jenisBarang;

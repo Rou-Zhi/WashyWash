@@ -114,10 +114,10 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
                 pl.setNamaPelanggan(rs.getString("nama_pelanggan"));
 
                 Penjualan p = new Penjualan(
-                        rs.getString("kode_penjualan"),
-                        pl,
-                        rs.getDate("tanggal"),
-                        rs.getDouble("diskon")
+                    rs.getString("kode_penjualan"),
+                    pl,
+                    rs.getDate("tanggal"),
+                    rs.getDouble("diskon")
                 );
 
                 p.setTotal(rs.getDouble("total"));
@@ -136,7 +136,14 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
     public List<Penjualan> findByTanggalRange(Date dari, Date sampai) {
         List<Penjualan> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM penjualan WHERE tanggal BETWEEN ? AND ?";
+        String sql = """
+            SELECT p.kode_penjualan, p.tanggal, p.diskon, p.total,
+                pl.kode_pelanggan, pl.nama_pelanggan
+            FROM penjualan p
+            LEFT JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+            WHERE p.tanggal BETWEEN ? AND ?
+            ORDER BY p.tanggal DESC
+        """;
 
         try (Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -147,13 +154,18 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Penjualan p = new Penjualan();
-                p.setKodePenjualan(rs.getString("kode_penjualan"));
-                p.setTanggal(rs.getDate("tanggal"));
-                p.setTotal(rs.getDouble("total"));
+                Pelanggan pl = new Pelanggan();
+                pl.setKodePelanggan(rs.getString("kode_pelanggan"));
+                pl.setNamaPelanggan(rs.getString("nama_pelanggan"));
 
-                // ⚠️ kalau ada pelanggan, sesuaikan ya
-                // p.setPelanggan(...);
+                Penjualan p = new Penjualan(
+                    rs.getString("kode_penjualan"),
+                    pl,
+                    rs.getDate("tanggal"),
+                    rs.getDouble("diskon")
+                );
+
+                p.setTotal(rs.getDouble("total"));
 
                 list.add(p);
             }

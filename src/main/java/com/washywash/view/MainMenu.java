@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.Component;
 
 public class MainMenu extends JFrame {
-
     private CardLayout cardLayout;
     private JPanel panelContent;
 
@@ -36,6 +35,7 @@ public class MainMenu extends JFrame {
             )
         );
 
+        JButton btnUser = createButton("User");
         JButton btnPelanggan = createButton("Pelanggan");
         JButton btnBarang = createButton("Barang");
 
@@ -44,6 +44,12 @@ public class MainMenu extends JFrame {
             "Tambah Penjualan",
             "History Penjualan"
         });
+
+        JButton btnLogout = createButton("Logout");
+
+        btnUser.addActionListener(e ->
+            cardLayout.show(panelContent, "user")
+        );
 
         btnPelanggan.addActionListener(e ->
             cardLayout.show(panelContent, "pelanggan")
@@ -67,11 +73,17 @@ public class MainMenu extends JFrame {
             cmbPenjualan.setSelectedIndex(0); 
         });
 
+        btnLogout.addActionListener(e -> logout());
+
+        panel.add(btnUser);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(btnPelanggan);
         panel.add(Box.createVerticalStrut(10));
         panel.add(btnBarang);
         panel.add(Box.createVerticalStrut(10));
         panel.add(cmbPenjualan);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(btnLogout);
 
         return panel;
     }
@@ -80,6 +92,7 @@ public class MainMenu extends JFrame {
         cardLayout = new CardLayout();
         JPanel panel = new JPanel(cardLayout);
 
+        panel.add(new FormUser(), "user");
         panel.add(new FormPelanggan(), "pelanggan");
         panel.add(new FormBarang(), "barang");
         panel.add(new FormPenjualan(), "penjualan");
@@ -120,5 +133,19 @@ public class MainMenu extends JFrame {
         });
 
         return cmb;
+    }
+
+    private void logout() {
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Yakin ingin logout?",
+            "Konfirmasi",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            new FormLogin().setVisible(true); 
+            dispose(); 
+        }
     }
 }

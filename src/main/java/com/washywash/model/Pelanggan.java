@@ -8,8 +8,7 @@ public class Pelanggan {
 
     public Pelanggan() {}
 
-    public Pelanggan(String kodePelanggan, String namaPelanggan, 
-    String noHp, String email) {
+    public Pelanggan(String kodePelanggan, String namaPelanggan, String noHp, String email) {
         this.kodePelanggan = kodePelanggan;
         this.namaPelanggan = namaPelanggan;
         this.noHp = noHp;

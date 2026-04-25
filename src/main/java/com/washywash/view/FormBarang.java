@@ -51,50 +51,50 @@ public class FormBarang extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Kode
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 1;
         panelForm.add(new JLabel("Kode Barang"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.weightx = 1;
         txtKodeBarang = new JTextField();
         panelForm.add(txtKodeBarang, gbc);
 
         // Nama
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 1; 
         panelForm.add(new JLabel("Nama Barang"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; 
         txtNamaBarang = new JTextField();
         panelForm.add(txtNamaBarang, gbc);
 
         // Jenis
-        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 2; 
         panelForm.add(new JLabel("Jenis Barang"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; 
         cmbJenisBarang = new JComboBox<>(new String[]{"Jasa", "Barang"});
         panelForm.add(cmbJenisBarang, gbc);
 
         // Satuan
-        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 3; 
         panelForm.add(new JLabel("Satuan"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; 
         cmbSatuan = new JComboBox<>(new String[]{"KG", "PCS", "SET", "UNIT"});
         panelForm.add(cmbSatuan, gbc);
 
         // Harga
-        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 4; 
         panelForm.add(new JLabel("Harga"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; 
         txtHarga = new JTextField();
         panelForm.add(txtHarga, gbc);
 
         // Stok
-        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 5; 
         panelForm.add(new JLabel("Stok"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1; 
         txtStok = new JTextField();
         panelForm.add(txtStok, gbc);
 
@@ -112,10 +112,10 @@ public class FormBarang extends JPanel {
         panelButton.add(btnReset);
 
         // Aksi
-        gbc.gridx = 0; gbc.gridy = 6; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 6; 
         panelForm.add(new JLabel("Aksi"), gbc);
 
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1;
         panelForm.add(panelButton, gbc);
 
         String[] columnNames = {"Kode Barang", "Nama Barang", "Jenis Barang", "Satuan", "Harga", "Stok"};
