@@ -1,6 +1,8 @@
 package com.washywash.repository.impl;
 
 import com.washywash.config.DatabaseConnection;
+import com.washywash.model.Barang;
+import com.washywash.model.DetailPenjualan;
 import com.washywash.model.Pelanggan;
 import com.washywash.model.Penjualan;
 import com.washywash.repository.PenjualanRepository;
@@ -8,7 +10,9 @@ import com.washywash.repository.PenjualanRepository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Date;
+import java.util.HashMap;
 
 public class PenjualanRepositoryImpl implements PenjualanRepository {
     @Override
