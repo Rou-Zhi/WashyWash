@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+    http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="laporan_penjualan"
+    pageWidth="595" pageHeight="842"
+    columnWidth="555"
+    leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <!-- ===== PARAMETER ===== -->
+    <parameter name="grandTotal" class="java.lang.Double"/>
+
+    <!-- ===== FIELD ===== -->
+    <field name="kode" class="java.lang.String"/>
+    <field name="tanggal" class="java.lang.String"/>
+    <field name="pelanggan" class="java.lang.String"/>
+    <field name="total" class="java.lang.Double"/>
+
+    <!-- ===== TITLE ===== -->
+    <title>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <text><![CDATA[LAPORAN PENJUALAN]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <!-- ===== HEADER KOLOM ===== -->
+    <columnHeader>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="100" height="20"/>
+                <text><![CDATA[Kode]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="100" y="0" width="100" height="20"/>
+                <text><![CDATA[Tanggal]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="200" y="0" width="150" height="20"/>
+                <text><![CDATA[Pelanggan]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="350" y="0" width="100" height="20"/>
+                <text><![CDATA[Total]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <!-- ===== DETAIL DATA ===== -->
+    <detail>
+        <band height="20">
+
+            <textField>
+                <reportElement x="0" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{kode}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="100" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="200" y="0" width="150" height="20"/>
+                <textFieldExpression><![CDATA[$F{pelanggan}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="350" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+            </textField>
+
+        </band>
+    </detail>
+
+    <!-- ===== GRAND TOTAL ===== -->
+    <summary>
+        <band height="30">
+
+            <staticText>
+                <reportElement x="0" y="0" width="150" height="20"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[GRAND TOTAL:]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="335" y="0" width="50" height="30"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{grandTotal}]]></textFieldExpression>
+            </textField>
+
+        </band>
+    </summary>
+
+</jasperReport>
