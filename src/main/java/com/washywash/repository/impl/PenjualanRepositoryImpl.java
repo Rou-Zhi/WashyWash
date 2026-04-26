@@ -118,10 +118,10 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
                 pl.setNamaPelanggan(rs.getString("nama_pelanggan"));
 
                 Penjualan p = new Penjualan(
-                        rs.getString("kode_penjualan"),
-                        pl,
-                        rs.getDate("tanggal"),
-                        rs.getDouble("diskon")
+                    rs.getString("kode_penjualan"),
+                    pl,
+                    rs.getDate("tanggal"),
+                    rs.getDouble("diskon")
                 );
 
                 p.setTotal(rs.getDouble("total"));
@@ -140,7 +140,14 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
     public List<Penjualan> findByTanggalRange(Date dari, Date sampai) {
         List<Penjualan> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM penjualan WHERE tanggal BETWEEN ? AND ?";
+        String sql = """
+            SELECT p.kode_penjualan, p.tanggal, p.diskon, p.total,
+                pl.kode_pelanggan, pl.nama_pelanggan
+            FROM penjualan p
+            LEFT JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+            WHERE p.tanggal BETWEEN ? AND ?
+            ORDER BY p.tanggal DESC
+        """;
 
         try (Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -151,13 +158,18 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Penjualan p = new Penjualan();
-                p.setKodePenjualan(rs.getString("kode_penjualan"));
-                p.setTanggal(rs.getDate("tanggal"));
-                p.setTotal(rs.getDouble("total"));
+                Pelanggan pl = new Pelanggan();
+                pl.setKodePelanggan(rs.getString("kode_pelanggan"));
+                pl.setNamaPelanggan(rs.getString("nama_pelanggan"));
 
-                // ⚠️ kalau ada pelanggan, sesuaikan ya
-                // p.setPelanggan(...);
+                Penjualan p = new Penjualan(
+                    rs.getString("kode_penjualan"),
+                    pl,
+                    rs.getDate("tanggal"),
+                    rs.getDouble("diskon")
+                );
+
+                p.setTotal(rs.getDouble("total"));
 
                 list.add(p);
             }
@@ -167,97 +179,5 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
         }
 
         return list;
-    }
-
-    @Override
-    public List<Penjualan> findAllDetails() {
-        List<Penjualan> list = new ArrayList<>();
-
-        String sql = """
-                SELECT pj.kode_penjualan, pj.tanggal, 
-                pl.kode_pelanggan, pl.nama_pelanggan, 
-                brg.kode_barang, brg.nama_barang, 
-                dl.qty, dl.harga
-
-                FROM penjualan pj
-                JOIN pelanggan pl ON pj.kode_pelanggan = pl.kode_pelanggan
-                JOIN detail_penjualan dl ON pj.kode_pelanggan = dl.kode_penjualan
-                JOIN barang b ON dl.kode_barang = brg.kode_barang
-                ORDER BY pj.kode_penjualan
-                """;
-
-        try(Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)) {
-                
-                Map<String, Penjualan> map = new HashMap<>();
-
-                while(rs.next()) {
-                    String kode = rs.getString("kode_penjualan");
-
-                    Penjualan pj = map.get(kode);
-                    if (pj == null) {
-                        Pelanggan pelanggan = new Pelanggan(
-                            rs.getString("kode_pelanggan"),
-                            rs.getString("nama_pelanggan"),
-                            "", ""
-                        );
-
-                        pj = new Penjualan();
-                        pj.setKodePenjualan(kode);
-                        pj.setTanggal(rs.getDate("tanggal"));
-                        pj.setDiskon(rs.getDouble("diskon"));
-                        pj.setPelanggan(pelanggan);
-
-                        map.put(kode, pj);
-                    }
-
-                    Barang barang = new Barang();
-                    barang.setKodeBarang(rs.getString("kode_barang"));
-                    barang.setNamaBarang(rs.getString("nama_barang"));
-
-                    DetailPenjualan dl = new DetailPenjualan(pj, barang, rs.getInt("qty"), rs.getDouble("harga"));
-
-                    pj.getListDetail().add(dl);
-                }
-
-                list.addAll(map.values());
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        return list;
-    } 
-    
-    @Override
-    public double getTotalPendapatan(Date dari, Date sampai) {
-        double total = 0;
-
-        String sql = "SELECT SUM(qty * harga) AS total FROM detail_penjualan";
-
-        if(dari != null && sampai != null) {
-            sql = """
-                    SELECT SUM (dl.qty * dl.harga) AS total 
-                    FROM detail_penjualan dl 
-                    JOIN penjualan pj ON dl.kode_penjualan = pj.kode_penjualan
-                    WHERE pj.tanggal BETWEEN ? AND ?
-                """;
-        }
-        try(Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-                if (dari != null && sampai != null) {
-                    ps.setDate(1, new java.sql.Date(dari.getTime()));
-                    ps.setDate(2, new java.sql.Date(sampai.getTime()));
-                }
-
-                ResultSet rs = ps.executeQuery();
-
-                if (rs.next()) {
-                    total = rs.getDouble("total");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        return total;
     }
 }
