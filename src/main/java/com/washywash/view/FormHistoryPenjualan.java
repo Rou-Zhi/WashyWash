@@ -9,27 +9,14 @@ import com.washywash.model.DetailPenjualan;
 import com.washywash.repository.impl.*;
 import com.washywash.service.*;
 
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FormHistoryPenjualan extends JPanel {
-    private JLabel lblTotal;
-
-
     private JDateChooser dateDari;
     private JDateChooser dateSampai;
     private JButton btnCari;
@@ -40,7 +27,6 @@ public class FormHistoryPenjualan extends JPanel {
 
     private final PenjualanService penjualanService;
     private final DetailPenjualanService detailService;
-
 
     public FormHistoryPenjualan() {
         penjualanService = new PenjualanService(
@@ -78,7 +64,6 @@ public class FormHistoryPenjualan extends JPanel {
         panelFilter.add(btnCari);
         panelFilter.add(btnReset);
 
-
         String[] columns = {
             "Kode",
             "Tanggal",
@@ -92,8 +77,6 @@ public class FormHistoryPenjualan extends JPanel {
 
         add(panelFilter, BorderLayout.NORTH);
         add(new JScrollPane(tablePenjualan), BorderLayout.CENTER);
-        lblTotal = new JLabel("Total: Rp 0");
-        // add(lblTotal, BorderLayout.SOUTH);
 
         btnCari.addActionListener(e -> cariData());
         btnReset.addActionListener(e -> resetFilter());
@@ -109,12 +92,8 @@ public class FormHistoryPenjualan extends JPanel {
         tableModel.setRowCount(0);
 
         List<Penjualan> list = penjualanService.getSemuaPenjualan();
-        double total = 0;
 
         for (Penjualan p : list) {
-            p.refreshTotal();
-            total += p.getTotal();
-
             tableModel.addRow(new Object[]{
                 p.getKodePenjualan(),
                 new SimpleDateFormat("yyyy-MM-dd").format(p.getTanggal()),
@@ -123,7 +102,6 @@ public class FormHistoryPenjualan extends JPanel {
                 p.getTotal()
             });
         }
-        lblTotal.setText("Total: Rp " + String.format("%,.0f", total));
     }
 
     private void cariData() {
@@ -144,7 +122,6 @@ public class FormHistoryPenjualan extends JPanel {
             tableModel.setRowCount(0);
 
             List<Penjualan> list = penjualanService.cariByTanggal(dari, sampai);
-            double total = 0;
 
             for (Penjualan p : list) {
                 tableModel.addRow(new Object[]{
@@ -154,9 +131,7 @@ public class FormHistoryPenjualan extends JPanel {
                     p.getDiskon(),
                     p.getTotal()
                 });
-                
             }
-            lblTotal.setText("Total: Rp " + String.format("%,.0f", total));
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -201,6 +176,4 @@ public class FormHistoryPenjualan extends JPanel {
         dialog.add(new JScrollPane(tableDetail));
         dialog.setVisible(true);
     }
-
-    
 }
