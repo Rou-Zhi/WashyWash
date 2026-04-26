@@ -16,5 +16,5 @@ public interface PenjualanRepository {
     List<Penjualan> findAllDetails();
     // List<Penjualan> findWithDetailByTanggal(Date dari, Date sampai);
     double getTotalPendapatan(Date dari, Date sampai);
-    List<Penjualan> findAllDetailsbyTanggalRange(Date dari, Date sampai);
+    List<Penjualan> findAllDetailsByTanggalRange(Date dari, Date sampai);
 }

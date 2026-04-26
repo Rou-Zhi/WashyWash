@@ -137,6 +137,75 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
     }
 
     @Override
+    public List<Penjualan> findAllDetails() {
+        List<Penjualan> list = new ArrayList<>();
+
+        String sql = """
+            SELECT p.kode_penjualan, p.tanggal, p.diskon,
+                pl.kode_pelanggan, pl.nama_pelanggan,
+                b.kode_barang, b.nama_barang,
+                d.qty, d.harga
+            FROM penjualan p
+            JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+            JOIN detail_penjualan d ON p.kode_penjualan = d.kode_penjualan
+            JOIN barang b ON d.kode_barang = b.kode_barang
+            ORDER BY p.kode_penjualan
+        """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
+
+            Map<String, Penjualan> map = new HashMap<>();
+
+            while (rs.next()) {
+
+                String kode = rs.getString("kode_penjualan");
+
+                // ambil / buat penjualan
+                Penjualan p = map.get(kode);
+                if (p == null) {
+                    Pelanggan pelanggan = new Pelanggan(
+                        rs.getString("kode_pelanggan"),
+                        rs.getString("nama_pelanggan"),
+                        "", ""
+                    );
+
+                    p = new Penjualan();
+                    p.setKodePenjualan(kode);
+                    p.setTanggal(rs.getDate("tanggal"));
+                    p.setDiskon(rs.getDouble("diskon"));
+                    p.setPelanggan(pelanggan);
+
+                    map.put(kode, p);
+                }
+
+                // barang
+                Barang barang = new Barang();
+                barang.setKodeBarang(rs.getString("kode_barang"));
+                barang.setNamaBarang(rs.getString("nama_barang"));
+
+                // detail
+                DetailPenjualan d = new DetailPenjualan(
+                    p,
+                    barang,
+                    rs.getInt("qty"),
+                    rs.getDouble("harga")
+                );
+
+                p.getListDetail().add(d);
+            }
+
+            list.addAll(map.values());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    @Override
     public List<Penjualan> findByTanggalRange(Date dari, Date sampai) {
         List<Penjualan> list = new ArrayList<>();
 
@@ -176,6 +245,114 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
 
         } catch (Exception e) {
             throw new RuntimeException("Gagal ambil data penjualan: " + e.getMessage());
+        }
+
+        return list;
+    }
+
+
+    @Override
+    public double getTotalPendapatan(Date dari, Date sampai) {
+        double total = 0;
+
+        String sql = """
+            SELECT SUM(d.qty * d.harga) AS total
+            FROM detail_penjualan d
+            JOIN penjualan p ON d.kode_penjualan = p.kode_penjualan
+            WHERE p.tanggal BETWEEN ? AND ?
+        """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // kalau pakai filter
+            if (dari != null && sampai != null) {
+                ps.setDate(1, new java.sql.Date(dari.getTime()));
+                ps.setDate(2, new java.sql.Date(sampai.getTime()));
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("total");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    @Override
+    public List<Penjualan> findAllDetailsByTanggalRange(Date dari, Date sampai) {
+        List<Penjualan> list = new ArrayList<>();
+
+        String sql = """
+            SELECT p.kode_penjualan, p.tanggal, p.diskon,
+                pl.kode_pelanggan, pl.nama_pelanggan,
+                b.kode_barang, b.nama_barang,
+                d.qty, d.harga
+            FROM penjualan p
+            JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+            JOIN detail_penjualan d ON p.kode_penjualan = d.kode_penjualan
+            JOIN barang b ON d.kode_barang = b.kode_barang
+            WHERE p.tanggal BETWEEN ? AND ?
+            ORDER BY p.kode_penjualan
+        """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // set parameter tanggal
+            ps.setDate(1, new java.sql.Date(dari.getTime()));
+            ps.setDate(2, new java.sql.Date(sampai.getTime()));
+
+            ResultSet rs = ps.executeQuery();
+
+            Map<String, Penjualan> map = new HashMap<>();
+
+            while (rs.next()) {
+                String kode = rs.getString("kode_penjualan");
+
+                // ambil / buat penjualan
+                Penjualan p = map.get(kode);
+                if (p == null) {
+                    Pelanggan pelanggan = new Pelanggan(
+                        rs.getString("kode_pelanggan"),
+                        rs.getString("nama_pelanggan"),
+                        "", ""
+                    );
+
+                    p = new Penjualan();
+                    p.setKodePenjualan(kode);
+                    p.setTanggal(rs.getDate("tanggal"));
+                    p.setDiskon(rs.getDouble("diskon"));
+                    p.setPelanggan(pelanggan);
+
+                    map.put(kode, p);
+                }
+
+                // barang
+                Barang barang = new Barang();
+                barang.setKodeBarang(rs.getString("kode_barang"));
+                barang.setNamaBarang(rs.getString("nama_barang"));
+
+                // detail
+                DetailPenjualan d = new DetailPenjualan(
+                    p,
+                    barang,
+                    rs.getInt("qty"),
+                    rs.getDouble("harga")
+                );
+
+                p.getListDetail().add(d);
+            }
+
+            list.addAll(map.values());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return list;

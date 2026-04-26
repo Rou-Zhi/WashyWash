@@ -86,7 +86,7 @@ public class FormLaporan extends JPanel{
         if (dari == null || sampai == null) {
             list = laporanService.getSemuaPenjualan();
         } else {
-            list = laporanService.getByTanggal(Date dari, Date sampai);
+            list = laporanService.getByTanggal(dari, sampai);
         }
 
         double totalSemua = 0;

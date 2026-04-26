@@ -19,6 +19,6 @@ public class LaporanService {
     }
 
     public List<Penjualan> getByTanggal( Date dari, Date sampai) {
-        return penjualanRepo.findAllDetailsbyTanggalRange(dari, sampai);
+        return penjualanRepo.findAllDetailsByTanggalRange(dari, sampai);
 }
 }

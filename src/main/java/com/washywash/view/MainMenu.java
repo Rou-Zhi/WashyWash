@@ -2,7 +2,6 @@ package com.washywash.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Component;
 
 public class MainMenu extends JFrame {
     private CardLayout cardLayout;
@@ -38,11 +37,13 @@ public class MainMenu extends JFrame {
         JButton btnUser = createButton("User");
         JButton btnPelanggan = createButton("Pelanggan");
         JButton btnBarang = createButton("Barang");
+        JButton btnLaporan = createButton("Laporan");
 
         JComboBox<String> cmbPenjualan = createComboBox(new String[]{
             "Penjualan",
             "Tambah Penjualan",
             "History Penjualan"
+            // "Laporan Penjualan"
         });
 
         JButton btnLogout = createButton("Logout");
@@ -59,6 +60,10 @@ public class MainMenu extends JFrame {
             cardLayout.show(panelContent, "barang")
         );
 
+        btnLaporan.addActionListener(e ->
+            cardLayout.show(panelContent, "laporan")
+        );
+
         cmbPenjualan.addActionListener(e -> {
             String selected = (String) cmbPenjualan.getSelectedItem();
 
@@ -69,6 +74,10 @@ public class MainMenu extends JFrame {
             if ("History Penjualan".equals(selected)) {
                 cardLayout.show(panelContent, "history");
             }
+
+            // if("Laporan Penjualan".equals(selected)) {
+            //     cardLayout.show(panelContent, "laporan");
+            // }
 
             cmbPenjualan.setSelectedIndex(0); 
         });
@@ -82,6 +91,8 @@ public class MainMenu extends JFrame {
         panel.add(btnBarang);
         panel.add(Box.createVerticalStrut(10));
         panel.add(cmbPenjualan);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(btnLaporan);
         panel.add(Box.createVerticalStrut(10));
         panel.add(btnLogout);
 
@@ -97,6 +108,7 @@ public class MainMenu extends JFrame {
         panel.add(new FormBarang(), "barang");
         panel.add(new FormPenjualan(), "penjualan");
         panel.add(new FormHistoryPenjualan(), "history");
+        panel.add(new FormLaporan(), "laporan");
 
         return panel;
     }
