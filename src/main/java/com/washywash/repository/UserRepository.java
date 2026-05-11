@@ -9,5 +9,6 @@ public interface UserRepository {
     void delete(String kodeUser);
     User findById(String kodeUser);
     User findByEmailOrKode(String input);
+    String generateKodeUser();
     List<User> findAll();
 }

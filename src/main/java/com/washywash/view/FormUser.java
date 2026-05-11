@@ -35,6 +35,11 @@ public class FormUser extends JPanel {
 
         initComponents();
         loadTable();
+
+        txtKodeUser.setText(
+            new UserRepositoryImpl().generateKodeUser()
+        );
+        txtKodeUser.setEditable(false);
     }
 
     private void initComponents() {
@@ -246,7 +251,10 @@ public class FormUser extends JPanel {
     }
 
     private void resetForm() {
-        txtKodeUser.setText("");
+        txtKodeUser.setText(
+            new UserRepositoryImpl().generateKodeUser()
+        );
+        // txtKodeUser.setText("");
         txtNamaUser.setText("");
         txtNoHp.setText("");
         txtEmail.setText("");

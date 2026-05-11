@@ -11,8 +11,37 @@ import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UserRepositoryImpl implements UserRepository{
+
+
+    @Override
+    public String generateKodeUser() {
+        String kode = "U001";
+
+        try {
+            String sql = "SELECT kode_user FROM user ORDER BY kode_user DESC LIMIT 1";
+
+            Connection conn = DatabaseConnection.getConnection();
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                String lastKode = rs.getString("kode_user");
+
+                int angka = Integer.parseInt(lastKode.substring(1)) + 1;
+
+                kode = "U" + String.format("%03d", angka);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return kode;
+    }
     @Override
     public void save(User user) {
+        user.setKodeUser(generateKodeUser());
+        
         String sql = "INSERT INTO user (kode_user, nama_user, no_hp, email, password) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -75,6 +104,7 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public User findById(String kodeUser) {
         String sql = "SELECT * FROM user WHERE kode_user=?";
+
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql)) {

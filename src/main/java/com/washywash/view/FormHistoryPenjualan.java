@@ -104,6 +104,10 @@ public class FormHistoryPenjualan extends JPanel {
         }
     }
 
+    public void refreshData() {
+        loadSemuaData();
+    }
+
     private void cariData() {
         try {
             Date dari = dateDari.getDate();

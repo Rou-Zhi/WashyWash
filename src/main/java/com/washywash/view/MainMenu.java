@@ -3,9 +3,13 @@ package com.washywash.view;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class MainMenu extends JFrame {
     private CardLayout cardLayout;
     private JPanel panelContent;
+
+    private FormHistoryPenjualan formHistory;
+    private FormLaporan formLaporan;
 
     public MainMenu() {
         setTitle("WashyWash Dashboard");
@@ -60,9 +64,10 @@ public class MainMenu extends JFrame {
             cardLayout.show(panelContent, "barang")
         );
 
-        btnLaporan.addActionListener(e ->
-            cardLayout.show(panelContent, "laporan")
-        );
+        btnLaporan.addActionListener(e ->{
+            formLaporan.refreshData();
+            cardLayout.show(panelContent, "laporan");
+        });
 
         cmbPenjualan.addActionListener(e -> {
             String selected = (String) cmbPenjualan.getSelectedItem();
@@ -72,12 +77,14 @@ public class MainMenu extends JFrame {
             }
 
             if ("History Penjualan".equals(selected)) {
+                formHistory.refreshData();
                 cardLayout.show(panelContent, "history");
             }
 
-            // if("Laporan Penjualan".equals(selected)) {
-            //     cardLayout.show(panelContent, "laporan");
-            // }
+            if("Laporan Penjualan".equals(selected)) {
+                formLaporan.refreshData();
+                cardLayout.show(panelContent, "laporan");
+            }
 
             cmbPenjualan.setSelectedIndex(0); 
         });
@@ -103,12 +110,15 @@ public class MainMenu extends JFrame {
         cardLayout = new CardLayout();
         JPanel panel = new JPanel(cardLayout);
 
+        formHistory = new FormHistoryPenjualan();
+        formLaporan = new FormLaporan();
+
         panel.add(new FormUser(), "user");
         panel.add(new FormPelanggan(), "pelanggan");
         panel.add(new FormBarang(), "barang");
         panel.add(new FormPenjualan(), "penjualan");
-        panel.add(new FormHistoryPenjualan(), "history");
-        panel.add(new FormLaporan(), "laporan");
+        panel.add(formHistory, "history");
+        panel.add(formLaporan, "laporan");
 
         return panel;
     }
