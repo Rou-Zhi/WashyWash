@@ -107,10 +107,6 @@ public class FormLaporan extends JPanel{
         lblTotal.setText("Total: Rp " + String.format("%,.0f", totalSemua));
     }
 
-    public void refreshData() {
-        loadData(null, null);
-    }
-
     private void tampilkanData() {
         Date dari = dateDari.getDate();
         Date sampai = dateSampai.getDate();
