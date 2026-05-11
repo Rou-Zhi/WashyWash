@@ -4,10 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Component;
 
+
 public class MainMenu extends JFrame {
 
     private CardLayout cardLayout;
     private JPanel panelContent;
+
+    private FormHistoryPenjualan formHistory;
+    private FormLaporan formLaporan;
 
     public MainMenu() {
         setTitle("WashyWash Dashboard");
@@ -53,6 +57,14 @@ public class MainMenu extends JFrame {
             cardLayout.show(panelContent, "barang")
         );
 
+<<<<<<< Updated upstream
+=======
+        btnLaporan.addActionListener(e ->{
+            formLaporan.refreshData();
+            cardLayout.show(panelContent, "laporan");
+        });
+
+>>>>>>> Stashed changes
         cmbPenjualan.addActionListener(e -> {
             String selected = (String) cmbPenjualan.getSelectedItem();
 
@@ -61,9 +73,18 @@ public class MainMenu extends JFrame {
             }
 
             if ("History Penjualan".equals(selected)) {
+                formHistory.refreshData();
                 cardLayout.show(panelContent, "history");
             }
 
+<<<<<<< Updated upstream
+=======
+            if("Laporan Penjualan".equals(selected)) {
+                formLaporan.refreshData();
+                cardLayout.show(panelContent, "laporan");
+            }
+
+>>>>>>> Stashed changes
             cmbPenjualan.setSelectedIndex(0); 
         });
 
@@ -80,10 +101,22 @@ public class MainMenu extends JFrame {
         cardLayout = new CardLayout();
         JPanel panel = new JPanel(cardLayout);
 
+<<<<<<< Updated upstream
         panel.add(new FormPelanggan(), "pelanggan");
         panel.add(new FormBarang(), "barang");
         panel.add(new FormPenjualan(), "penjualan");
         panel.add(new FormHistoryPenjualan(), "history");
+=======
+        formHistory = new FormHistoryPenjualan();
+        formLaporan = new FormLaporan();
+
+        panel.add(new FormUser(), "user");
+        panel.add(new FormPelanggan(), "pelanggan");
+        panel.add(new FormBarang(), "barang");
+        panel.add(new FormPenjualan(), "penjualan");
+        panel.add(formHistory, "history");
+        panel.add(formLaporan, "laporan");
+>>>>>>> Stashed changes
 
         return panel;
     }
