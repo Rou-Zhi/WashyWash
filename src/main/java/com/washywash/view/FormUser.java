@@ -202,7 +202,7 @@ public class FormUser extends JPanel {
             txtNamaUser.setText(user.getNamaUser());
             txtNoHp.setText(user.getNoHp());
             txtEmail.setText(user.getEmail());
-            txtPassword.setText(""); // penting!
+            txtPassword.setText(""); 
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -216,7 +216,6 @@ public class FormUser extends JPanel {
         String email = txtEmail.getText().trim();
         String password = new String(txtPassword.getPassword());
 
-        // VALIDASI WAJIB
         if (kode.isBlank()) throw new IllegalArgumentException("Kode user wajib diisi.");
         if (nama.isBlank()) throw new IllegalArgumentException("Nama user wajib diisi.");
         if (no.isBlank()) throw new IllegalArgumentException("No HP wajib diisi.");
